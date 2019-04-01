@@ -124,5 +124,5 @@ dmypy.json
 
 /models
 ./models/*
-/vidual_logs
+/visual_logs
 sports1m_finetuning_ucf101.model
