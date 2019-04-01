@@ -27,7 +27,7 @@ import numpy as np
 
 # Basic model parameters as external flags.
 flags = tf.app.flags
-gpu_num = 2
+gpu_num = 1
 #flags.DEFINE_float('learning_rate', 0.0, 'Initial learning rate.')
 flags.DEFINE_integer('max_steps', 5000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('batch_size', 10, 'Batch size.')
@@ -162,7 +162,7 @@ def run_training():
       with tf.device('/gpu:%d' % gpu_index):
         
         varlist2 = [ weights['out'],biases['out'] ]
-        varlist1 = list( set(weights.values() + biases.values()) - set(varlist2) )
+        varlist1 = list( set(list(weights.values()) + list(biases.values())) - set(varlist2) )
         logit = c3d_model.inference_c3d(
                         images_placeholder[gpu_index * FLAGS.batch_size:(gpu_index + 1) * FLAGS.batch_size,:,:,:,:],
                         0.5,
@@ -194,16 +194,21 @@ def run_training():
     null_op = tf.no_op()
 
     # Create a saver for writing training checkpoints.
-    saver = tf.train.Saver(weights.values() + biases.values())
+    saver = tf.train.Saver(list(weights.values()) + list(biases.values()))
     init = tf.global_variables_initializer()
 
     # Create a session for running Ops on the Graph.
+    config = tf.ConfigProto(allow_soft_placement = True)
+    config.gpu_options.allow_growth = True
+
     sess = tf.Session(
-                    config=tf.ConfigProto(allow_soft_placement=True)
+                    #config=tf.ConfigProto(allow_soft_placement=True)
+                    config=config
                     )
     sess.run(init)
     if os.path.isfile(model_filename) and use_pretrained_model:
       saver.restore(sess, model_filename)
+      print("Successfully load the pretrained data")
 
     # Create summary writter
     merged = tf.summary.merge_all()

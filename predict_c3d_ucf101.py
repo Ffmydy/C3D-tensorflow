@@ -29,7 +29,7 @@ import numpy as np
 
 # Basic model parameters as external flags.
 flags = tf.app.flags
-gpu_num = 2
+gpu_num = 1
 flags.DEFINE_integer('batch_size', 10 , 'Batch size.')
 FLAGS = flags.FLAGS
 
@@ -110,16 +110,20 @@ def run_test():
   logits = tf.concat(logits,0)
   norm_score = tf.nn.softmax(logits)
   saver = tf.train.Saver()
-  sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+
+  config = tf.ConfigProto(allow_soft_placement = True)
+  config.gpu_options.allow_growth = True
+  sess = tf.Session(config=config)
   init = tf.global_variables_initializer()
   sess.run(init)
   # Create a saver for writing training checkpoints.
   saver.restore(sess, model_name)
   # And then after everything is built, start the training loop.
   bufsize = 0
-  write_file = open("predict_ret.txt", "w+", bufsize)
+  write_file = open("predict_ret.txt", "w+")
   next_start_pos = 0
   all_steps = int((num_test_videos - 1) / (FLAGS.batch_size * gpu_num) + 1)
+  accuracy,cnt = 0,0
   for step in xrange(all_steps):
     # Fill a feed dictionary with the actual set of images and labels
     # for this particular training step.
@@ -143,6 +147,11 @@ def run_test():
               predict_score[i][true_label],
               top1_predicted_label,
               predict_score[i][top1_predicted_label]))
+      cnt += 1
+      if true_label[0]==top1_predicted_label:
+        accuracy += 1
+  print("Test Accuracy={}".format(float(accuracy)/float(cnt)))
+
   write_file.close()
   print("done")
 
