@@ -24,7 +24,7 @@ import tensorflow as tf
 import PIL.Image as Image
 import random
 import numpy as np
-#import cv2
+import cv2
 import time
 
 def get_frames_data(filename, num_frames_per_clip=16):
@@ -79,12 +79,12 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
         img = Image.fromarray(tmp_data[j].astype(np.uint8))
         if(img.width>img.height):
           scale = float(crop_size)/float(img.height)
-          #img = np.array(cv2.resize(np.array(img),(int(img.width * scale + 1), crop_size))).astype(np.float32)
-          img = np.array(img.resize((int(img.width * scale + 1), crop_size),Image.ANTIALIAS))
+          img = np.array(cv2.resize(np.array(img),(int(img.width * scale + 1), crop_size))).astype(np.float32)
+          #img = np.array(img.resize((int(img.width * scale + 1), crop_size),Image.ANTIALIAS))
         else:
           scale = float(crop_size)/float(img.width)
-          #img = np.array(cv2.resize(np.array(img),(crop_size, int(img.height * scale + 1)))).astype(np.float32)
-          img = np.array(img.resize((crop_size, int(img.height * scale + 1)),Image.ANTIALIAS))
+          img = np.array(cv2.resize(np.array(img),(crop_size, int(img.height * scale + 1)))).astype(np.float32)
+          #img = np.array(img.resize((crop_size, int(img.height * scale + 1)),Image.ANTIALIAS))
         crop_x = int((img.shape[0] - crop_size)/2)
         crop_y = int((img.shape[1] - crop_size)/2)
         img = img[crop_x:crop_x+crop_size, crop_y:crop_y+crop_size,:] - np_mean[j]
