@@ -27,7 +27,7 @@ import numpy as np
 import cv2
 import time
 
-def get_frames_data(filename, num_frames_per_clip=16):
+def get_frames_data(filename, num_frames_per_clip=7):
   ''' Given a directory containing extracted frames, return a video clip of
   (num_frames_per_clip) consecutive frames as a list of np arrays '''
   ret_arr = []
@@ -44,7 +44,7 @@ def get_frames_data(filename, num_frames_per_clip=16):
       ret_arr.append(img_data)
   return ret_arr, s_index
 
-def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=16, crop_size=112, shuffle=False):
+def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=7, crop_size=112, shuffle=False):
   lines = open(filename,'r')
   read_dirnames = []
   data = []
@@ -52,7 +52,7 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
   batch_index = 0
   next_batch_start = -1
   lines = list(lines)
-  np_mean = np.load('crop_mean.npy').reshape([num_frames_per_clip, crop_size, crop_size, 3])
+  #np_mean = np.load('crop_mean.npy').reshape([num_frames_per_clip, crop_size, crop_size, 3])
   # Forcing shuffle, if start_pos is not specified
   if start_pos < 0:
     shuffle = True
@@ -87,7 +87,7 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
           #img = np.array(img.resize((crop_size, int(img.height * scale + 1)),Image.ANTIALIAS))
         crop_x = int((img.shape[0] - crop_size)/2)
         crop_y = int((img.shape[1] - crop_size)/2)
-        img = img[crop_x:crop_x+crop_size, crop_y:crop_y+crop_size,:] - np_mean[j]
+        img = img[crop_x:crop_x+crop_size, crop_y:crop_y+crop_size,:] #- np_mean[j]
         img_datas.append(img)
       data.append(img_datas)
       label.append(int(tmp_label))

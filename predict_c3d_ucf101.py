@@ -117,8 +117,8 @@ def run_test():
   init = tf.global_variables_initializer()
   sess.run(init)
   # Create a saver for writing training checkpoints.
-  saver.restore(sess, model_name)
-  #saver.restore(sess,"./models/c3d_ucf_model-7999")
+  #saver.restore(sess, model_name)
+  saver.restore(sess,"./models/c3d_ucf_model-7990")
   # And then after everything is built, start the training loop.
   bufsize = 0
   write_file = open("predict_ret.txt", "w+",bufsize)

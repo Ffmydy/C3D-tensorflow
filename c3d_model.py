@@ -30,7 +30,7 @@ CROP_SIZE = 112
 CHANNELS = 3
 
 # Number of frames per video clip
-NUM_FRAMES_PER_CLIP = 16
+NUM_FRAMES_PER_CLIP = 7
 
 "-----------------------------------------------------------------------------------------------------------------------"
 

@@ -114,6 +114,7 @@ def run_training():
   if not os.path.exists(model_save_dir):
       os.makedirs(model_save_dir)
   use_pretrained_model = False 
+  use_ckpt = False
   model_filename = "./sports1m_finetuning_ucf101.model" #"./models/c3d_ucf_model-7999"
 
   with tf.Graph().as_default():
@@ -209,6 +210,11 @@ def run_training():
     if os.path.isfile(model_filename) and use_pretrained_model:
       saver.restore(sess, model_filename)
       print("Successfully load the pretrained data")
+    if use_ckpt:
+      ckpt = tf.train.get_checkpoint_state(model_save_dir)
+      if ckpt and ckpt.model_checkpoint_path:
+          saver.restore(sess, ckpt.model_checkpoint_path)
+          print("Model restored...")
 
     # Create summary writter
     merged = tf.summary.merge_all()
