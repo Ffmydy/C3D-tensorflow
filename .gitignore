@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+﻿# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -126,3 +126,7 @@ dmypy.json
 ./models/*
 /visual_logs
 sports1m_finetuning_ucf101.model
+predict_ret.txt
+
+.list
+.trainVideos
