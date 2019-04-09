@@ -26,7 +26,7 @@ import tensorflow as tf
 NUM_CLASSES = 101
 
 # Images are cropped to (CROP_SIZE, CROP_SIZE)
-CROP_SIZE = 112
+CROP_SIZE = 100
 CHANNELS = 3
 
 # Number of frames per video clip
