@@ -130,3 +130,5 @@ predict_ret.txt
 
 .list
 .trainVideos
+./list/*.list
+./list/*.trainVideos
