@@ -27,24 +27,31 @@ import numpy as np
 import cv2
 import time
 
-def get_frames_data(filename, num_frames_per_clip=7):
+def get_frames_data(filename, num_frames_per_clip=12):
   ''' Given a directory containing extracted frames, return a video clip of
   (num_frames_per_clip) consecutive frames as a list of np arrays '''
   ret_arr = []
   s_index = 0
   for parent, dirnames, filenames in os.walk(filename):
-    if(len(filenames)<num_frames_per_clip):
-      return [], s_index
+
     filenames = sorted(filenames)
-    s_index = random.randint(0, len(filenames) - num_frames_per_clip)
-    for i in range(s_index, s_index + num_frames_per_clip):
-      image_name = str(filename) + '/' + str(filenames[i])
-      img = Image.open(image_name)
-      img_data = np.array(img)
-      ret_arr.append(img_data)
+    file_len = len(filenames)
+    if file_len < num_frames_per_clip:
+      for i in range(num_frames_per_clip):
+        image_name = str(filename) + '/' + str(filenames[i%file_len])
+        img = Image.open(image_name)
+        img_data = np.array(img)
+        ret_arr.append(img_data)
+    else:
+      s_index = random.randint(0, file_len - num_frames_per_clip)
+      for i in range(s_index, s_index + num_frames_per_clip):
+        image_name = str(filename) + '/' + str(filenames[i])
+        img = Image.open(image_name)
+        img_data = np.array(img)
+        ret_arr.append(img_data)
   return ret_arr, s_index
 
-def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=7, crop_size=100, shuffle=False):
+def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=12, crop_size=100, shuffle=False):
   lines = open(filename,'r')
   read_dirnames = []
   data = []

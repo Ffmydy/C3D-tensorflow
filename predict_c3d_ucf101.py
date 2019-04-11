@@ -118,10 +118,10 @@ def run_test():
   sess.run(init)
   # Create a saver for writing training checkpoints.
   #saver.restore(sess, model_name)
-  saver.restore(sess,"./models/c3d_ucf_model-7999")
+  saver.restore(sess,"./models/c3d_ucf_model-5999")
   # And then after everything is built, start the training loop.
   bufsize = 0
-  write_file = open("predict_ret.txt", "w+",bufsize)
+  write_file = open("predict_ret.txt", "w+")
   next_start_pos = 0
   all_steps = int((num_test_videos - 1) / (FLAGS.batch_size * gpu_num) + 1)
   accuracy,cnt = 0,0
