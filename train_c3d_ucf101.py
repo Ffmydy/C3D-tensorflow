@@ -142,9 +142,9 @@ def run_training():
               'wc4b': _variable_with_weight_decay('wc4b', [3, 3, 3, 512, 512], 0.0005),
               'wc5a': _variable_with_weight_decay('wc5a', [3, 3, 3, 512, 512], 0.0005),
               'wc5b': _variable_with_weight_decay('wc5b', [3, 3, 3, 512, 512], 0.0005),
-              'wd1': _variable_with_weight_decay('wd1', [8192, 4096], 0.0005),
-              'wd2': _variable_with_weight_decay('wd2', [4096, 4096], 0.0005),
-              'out': _variable_with_weight_decay('wout', [4096, c3d_model.NUM_CLASSES], 0.0005)
+              'wd1': _variable_with_weight_decay('wd1', [4608, 4096], 0.0005),
+              'wd2': _variable_with_weight_decay('wd2', [4096, 2048], 0.0005),
+              'out': _variable_with_weight_decay('wout', [2048, c3d_model.NUM_CLASSES], 0.0005)
               }
       biases = {
               'bc1': _variable_with_weight_decay('bc1', [64], 0.000),
@@ -156,7 +156,7 @@ def run_training():
               'bc5a': _variable_with_weight_decay('bc5a', [512], 0.000),
               'bc5b': _variable_with_weight_decay('bc5b', [512], 0.000),
               'bd1': _variable_with_weight_decay('bd1', [4096], 0.000),
-              'bd2': _variable_with_weight_decay('bd2', [4096], 0.000),
+              'bd2': _variable_with_weight_decay('bd2', [2048], 0.000),
               'out': _variable_with_weight_decay('bout', [c3d_model.NUM_CLASSES], 0.000),
               }
     for gpu_index in range(0, gpu_num):

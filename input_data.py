@@ -45,13 +45,13 @@ def get_frames_data(filename, num_frames_per_clip=12):
     else:
       average_num = file_len/num_frames_per_clip
       for i in range(num_frames_per_clip):
-        image_name = str(filename) + '/' + str(filenames[round(i*average_num)])
+        image_name = str(filename) + '/' + str(filenames[int(i*average_num)])
         img = Image.open(image_name)
         img_data = np.array(img)
         ret_arr.append(img_data)
   return ret_arr, s_index
 
-def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=12, crop_size=100, shuffle=False):
+def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=12, crop_size=80, shuffle=False):
   lines = open(filename,'r')
   read_dirnames = []
   data = []
