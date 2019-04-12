@@ -128,5 +128,5 @@ dmypy.json
 sports1m_finetuning_ucf101.model
 predict_ret.txt
 
-/list/*.list
-/list/*.trainVideos
+list/*.list
+list/*.trainVideos
