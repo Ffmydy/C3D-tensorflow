@@ -2,7 +2,7 @@
 COUNT=-1
 for folder in $1/*
 do
-	if [ "$1"/"BENEFIT" = "$folder" ] || [ "$1"/"ABOUT" = "$folder" ] ; then
+	#if [ "$1"/"BENEFIT" = "$folder" ] || [ "$1"/"ABOUT" = "$folder" ] ; then
 	    COUNT=$[$COUNT + 1]
 	    for setFolder in "$folder"/*
 		do
@@ -15,6 +15,6 @@ do
 			    done
 		fi
 		done
-	fi
+	#fi
 done
 

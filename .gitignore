@@ -130,3 +130,7 @@ predict_ret.txt
 
 list/*.list
 list/*.trainVideos
+list/train.list
+list/train_ucf101.trainVideos
+list/test.list
+list/test_ucf101.trainVideos

@@ -29,7 +29,7 @@ import numpy as np
 flags = tf.app.flags
 gpu_num = 1
 #flags.DEFINE_float('learning_rate', 0.0, 'Initial learning rate.')
-flags.DEFINE_integer('max_steps', 5000, 'Number of steps to run trainer.')
+flags.DEFINE_integer('max_steps', 15000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('batch_size', 10, 'Batch size.')
 FLAGS = flags.FLAGS
 MOVING_AVERAGE_DECAY = 0.9999
@@ -227,7 +227,8 @@ def run_training():
                       batch_size=FLAGS.batch_size * gpu_num,
                       num_frames_per_clip=c3d_model.NUM_FRAMES_PER_CLIP,
                       crop_size=c3d_model.CROP_SIZE,
-                      shuffle=True
+                      shuffle=True,
+                      step = step
                       )
       sess.run(train_op, feed_dict={
                       images_placeholder: train_images,

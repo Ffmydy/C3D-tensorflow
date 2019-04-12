@@ -23,14 +23,14 @@ forward to make predictions.
 import tensorflow as tf
 
 # The UCF-101 dataset has 101 classes
-NUM_CLASSES = 2
+NUM_CLASSES = 5
 
 # Images are cropped to (CROP_SIZE, CROP_SIZE)
 CROP_SIZE = 80
 CHANNELS = 3
 
 # Number of frames per video clip
-NUM_FRAMES_PER_CLIP = 12
+NUM_FRAMES_PER_CLIP = 24
 
 "-----------------------------------------------------------------------------------------------------------------------"
 
@@ -48,7 +48,7 @@ def inference_c3d(_X, _dropout, batch_size, _weights, _biases):
   # Convolution Layer
   conv1 = conv3d('conv1', _X, _weights['wc1'], _biases['bc1'])
   conv1 = tf.nn.relu(conv1, 'relu1')
-  pool1 = max_pool('pool1', conv1, k=1)
+  pool1 = max_pool('pool1', conv1, k=2)
 
   # Convolution Layer
   conv2 = conv3d('conv2', pool1, _weights['wc2'], _biases['bc2'])

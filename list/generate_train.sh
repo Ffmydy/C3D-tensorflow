@@ -5,7 +5,7 @@ do
     COUNT=$[$COUNT + 1]
     for setFolder in "$folder"/*
     do
-		if [ "$folder"/"train" != "$setFolder" ] ; then
+		if [ "$folder"/"train" = "$setFolder" ] ; then
 			for imagesFolder in "$setFolder"/*
 			do
 		        	echo "$imagesFolder" $COUNT >> train.list
