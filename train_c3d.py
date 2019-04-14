@@ -29,7 +29,7 @@ import numpy as np
 flags = tf.app.flags
 gpu_num = 1
 #flags.DEFINE_float('learning_rate', 0.0, 'Initial learning rate.')
-flags.DEFINE_integer('max_steps', 12000, 'Number of steps to run trainer.')
+flags.DEFINE_integer('max_steps', 5000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('batch_size', 10, 'Batch size.')
 FLAGS = flags.FLAGS
 MOVING_AVERAGE_DECAY = 0.9999
@@ -53,7 +53,7 @@ def placeholder_inputs(batch_size):
   # rather than the full size of the train or test data sets.
   images_placeholder = tf.placeholder(tf.float32, shape=(batch_size,
                                                          c3d_model.NUM_FRAMES_PER_CLIP,
-                                                         c3d_model.CROP_SIZE,
+                                                         c3d_model.CROP_SIZE-20,
                                                          c3d_model.CROP_SIZE,
                                                          c3d_model.CHANNELS))
   labels_placeholder = tf.placeholder(tf.int64, shape=(batch_size))
@@ -114,7 +114,7 @@ def run_training():
   if not os.path.exists(model_save_dir):
       os.makedirs(model_save_dir)
   use_pretrained_model = False 
-  use_ckpt = True
+  use_ckpt = False
   model_filename = "./sports1m_finetuning_ucf101.model" #"./models/c3d_ucf_model-7999"
 
   with tf.Graph().as_default():
@@ -142,7 +142,7 @@ def run_training():
               'wc4b': _variable_with_weight_decay('wc4b', [3, 3, 3, 512, 512], 0.0005),
               'wc5a': _variable_with_weight_decay('wc5a', [3, 3, 3, 512, 512], 0.0005),
               'wc5b': _variable_with_weight_decay('wc5b', [3, 3, 3, 512, 512], 0.0005),
-              'wd1': _variable_with_weight_decay('wd1', [4608, 4096], 0.0005),
+              'wd1': _variable_with_weight_decay('wd1', [6144, 4096], 0.0005),
               'wd2': _variable_with_weight_decay('wd2', [4096, 2048], 0.0005),
               'out': _variable_with_weight_decay('wout', [2048, c3d_model.NUM_CLASSES], 0.0005)
               }
@@ -220,7 +220,7 @@ def run_training():
     merged = tf.summary.merge_all()
     train_writer = tf.summary.FileWriter('./visual_logs/train', sess.graph)
     test_writer = tf.summary.FileWriter('./visual_logs/test', sess.graph)
-    for step in xrange(8000,FLAGS.max_steps):
+    for step in xrange(FLAGS.max_steps):
       start_time = time.time()
       train_images, train_labels, _, _, _ = input_data.read_clip_and_label(
                       filename='list/train.list',
