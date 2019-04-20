@@ -36,9 +36,10 @@ def get_frames_data(filename, num_frames_per_clip=12):
 
     filenames = sorted(filenames)
     file_len = len(filenames)
+    loopnum = num_frames_per_clip/file_len
     if file_len < num_frames_per_clip:
       for i in range(num_frames_per_clip):
-        image_name = str(filename) + '/' + str(filenames[i%file_len])
+        image_name = str(filename) + '/' + str(filenames[int(i//loopnum)])
         img = Image.open(image_name)
         img_data = np.array(img)
         ret_arr.append(img_data)
@@ -81,6 +82,10 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
       print("Loading a video clip from {}...".format(dirname))
     tmp_data, _ = get_frames_data(dirname, num_frames_per_clip)
     img_datas = []
+    if random.random()<0.5:
+      flip = True
+    else:
+      flip = False
     if(len(tmp_data)!=0):
       for j in xrange(len(tmp_data)):
         #img = Image.fromarray(tmp_data[j].astype(np.uint8))
@@ -97,8 +102,10 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
         '''
         crop_x = int((img.shape[0] - crop_size + 20)/2)
         crop_y = int((img.shape[1] - crop_size)/2)
-        #img = img[crop_x:crop_x+crop_size, crop_y+crop_size:crop_y:-1,:] #- np_mean[j]
-        img = img[crop_x:crop_x+crop_size-20, crop_y:crop_y+crop_size,:]
+        if flip:
+          img = img[crop_x:crop_x+crop_size-20, crop_y+crop_size:crop_y:-1,:] #- np_mean[j]
+        else:
+          img = img[crop_x:crop_x+crop_size-20, crop_y:crop_y+crop_size,:]
         img_datas.append(img)
       data.append(img_datas)
       label.append(int(tmp_label))

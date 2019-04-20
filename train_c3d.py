@@ -29,7 +29,7 @@ import numpy as np
 flags = tf.app.flags
 gpu_num = 1
 #flags.DEFINE_float('learning_rate', 0.0, 'Initial learning rate.')
-flags.DEFINE_integer('max_steps', 5000, 'Number of steps to run trainer.')
+flags.DEFINE_integer('max_steps', 3000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('batch_size', 10, 'Batch size.')
 FLAGS = flags.FLAGS
 MOVING_AVERAGE_DECAY = 0.9999
@@ -114,7 +114,7 @@ def run_training():
   if not os.path.exists(model_save_dir):
       os.makedirs(model_save_dir)
   use_pretrained_model = False 
-  use_ckpt = False
+  use_ckpt = True
   model_filename = "./sports1m_finetuning_ucf101.model" #"./models/c3d_ucf_model-7999"
 
   with tf.Graph().as_default():

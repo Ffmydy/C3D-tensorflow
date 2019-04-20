@@ -48,7 +48,7 @@ def placeholder_inputs(batch_size):
   # rather than the full size of the train or test data sets.
   images_placeholder = tf.placeholder(tf.float32, shape=(batch_size,
                                                          c3d_model.NUM_FRAMES_PER_CLIP,
-                                                         c3d_model.CROP_SIZE,
+                                                         c3d_model.CROP_SIZE-20,
                                                          c3d_model.CROP_SIZE,
                                                          c3d_model.CHANNELS))
   labels_placeholder = tf.placeholder(tf.int64, shape=(batch_size))
@@ -85,7 +85,7 @@ def run_test():
             'wc4b': _variable_with_weight_decay('wc4b', [3, 3, 3, 512, 512], 0.04, 0.00),
             'wc5a': _variable_with_weight_decay('wc5a', [3, 3, 3, 512, 512], 0.04, 0.00),
             'wc5b': _variable_with_weight_decay('wc5b', [3, 3, 3, 512, 512], 0.04, 0.00),
-            'wd1': _variable_with_weight_decay('wd1', [4608, 4096], 0.04, 0.001),
+            'wd1': _variable_with_weight_decay('wd1', [6144, 4096], 0.04, 0.001),
             'wd2': _variable_with_weight_decay('wd2', [4096, 2048], 0.04, 0.002),
             'out': _variable_with_weight_decay('wout', [2048, c3d_model.NUM_CLASSES], 0.04, 0.005)
             }
@@ -118,7 +118,7 @@ def run_test():
   sess.run(init)
   # Create a saver for writing training checkpoints.
   #saver.restore(sess, model_name)
-  saver.restore(sess,"./models/c3d_ucf_model-7999")
+  saver.restore(sess,"./models/c3d_ucf_model-2970")
   # And then after everything is built, start the training loop.
   bufsize = 0
   write_file = open("predict_ret.txt", "w+")
